@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frases/data/frases_db.dart';
-import 'package:frases/models/frase.dart';
+import '../data/frases_db.dart';
+import '../models/frase.dart';
 
 class FormularioScreen extends StatefulWidget {
   final Frase? frase; // null = nueva, con valor = editar
@@ -32,15 +32,15 @@ class _FormularioScreenState extends State<FormularioScreen> {
 
   Future<void> _guardar() async {
     if (!_formKey.currentState!.validate()) return;
-    final frase = Frase(
+    final fraseObj = Frase(
       id: widget.frase?.id,
       frase: _fraseCtrl.text.trim(),
       autor: _autorCtrl.text.trim(),
     );
     if (_esEdicion) {
-      await FrasesDb.instancia.actualizar(frase);
+      await FrasesDb.instancia.actualizar(fraseObj);
     } else {
-      await FrasesDb.instancia.insert(frase);
+      await FrasesDb.instancia.insert(fraseObj);
     }
     if (!mounted) return;
     Navigator.pop(context, true); // avisa que se guardó algo
